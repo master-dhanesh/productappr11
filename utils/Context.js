@@ -1,24 +1,12 @@
 "use client";
-import axios from "./axios";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 
 export const ProductContext = createContext();
 
 const Context = (props) => {
-    const [products, setproducts] = useState(null);
-
-    const getallproducts = async () => {
-        try {
-            const { data } = await axios.get("/products");
-            setproducts(data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {
-        if (!products) getallproducts();
-    }, []);
+    const [products, setproducts] = useState(
+        JSON.parse(window.localStorage.getItem("products")) || []
+    );
 
     return (
         <ProductContext.Provider value={[products, setproducts]}>
